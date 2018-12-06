@@ -1,0 +1,47 @@
+<hmtl>
+    <head>
+        <title>测试ws</title>
+    </head>
+    <body>
+    <button id="test">测试</button>
+    <button id="open">打开链接</button>
+    <button id="close">关闭链接</button>
+    <button id="send">发送消息</button>
+    <input type="text" id="cnt">
+    </body>
+    <script type="application/javascript">
+        document.getElementById('test').onclick= function () {
+           console.log(111)
+
+        }
+
+        var ws
+        function init() {
+            ws = new WebSocket("ws://localhost:8080/msg");
+            ws.onopen = function (evt) {
+                console.log("Connection open ...");
+                ws.send("Hello WebSockets!");
+            };
+
+            ws.onmessage = function (evt) {
+                console.log("Received Message: " + evt.data);
+            };
+            ws.onclose = function (evt) {
+                console.log("Connection closed.");
+            };
+        }
+
+
+        document.getElementById('open').onclick= function () {
+            init()
+            console.log('打开监听')
+        }
+        document.getElementById('close').onclick= function () {
+            ws.close()
+            console.log('关闭监听')
+        }
+        document.getElementById('send').onclick= function () {
+            ws.send(document.getElementById('cnt').value)
+        }
+    </script>
+</hmtl>
