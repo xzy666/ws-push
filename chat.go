@@ -31,10 +31,17 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		conn.Close()
 		return
 	}
-	ws, _ := service.InitConnection(conn)
+	ws, err := service.InitConnection(conn)
+	if err != nil {
+		log.Println(err)
+	}
 	go func() {
 		for {
-			data, _ := ws.ReadMessage()
+			data, err := ws.ReadMessage()
+			if err != nil {
+				log.Println(err)
+				return
+			}
 			ws.WriteMessage(data)
 			fmt.Println("从客服端读取的消息为：" + string(data))
 		}
@@ -42,7 +49,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	go func() {
 		for {
-			ws.WriteMessage([]byte("heart beat!!!!"))
+			err := ws.WriteMessage([]byte("heart beat!!!!"))
+			if err != nil {
+				log.Println(err)
+				return
+			}
 			time.Sleep(time.Second)
 		}
 	}()

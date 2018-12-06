@@ -3,18 +3,12 @@
         <title>测试ws</title>
     </head>
     <body>
-    <button id="test">测试</button>
     <button id="open">打开链接</button>
     <button id="close">关闭链接</button>
     <button id="send">发送消息</button>
     <input type="text" id="cnt">
     </body>
     <script type="application/javascript">
-        document.getElementById('test').onclick= function () {
-           console.log(111)
-
-        }
-
         var ws
         function init() {
             ws = new WebSocket("ws://localhost:8080/msg");
